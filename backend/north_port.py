@@ -41,6 +41,11 @@ def explore(root, tour, trends, district):
             except TourError:
                 continue
             place['fetched_at'] = datetime.fromtimestamp(fetched, timezone.utc).isoformat()
+            stored = records.get(place['id'], {})
+            if not place.get('image_url') and stored.get('image_url'):
+                for field in ('image_url', 'image_license', 'image_source'):
+                    if field in stored:
+                        place[field] = stored[field]
             records[place['id']] = place
     # Exact known TourAPI record: representative coordinate, not a verified exit.
     origin = records.get('3426656')
