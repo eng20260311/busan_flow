@@ -10,3 +10,5 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 
 .places-more{grid-column:1/-1;justify-self:center;margin:12px 0;padding:14px 32px;background:white}
+
+.photo-placeholder{padding:18px;box-sizing:border-box;gap:6px}.photo-placeholder strong{font-size:18px;line-height:1.4;max-width:260px;color:#254c46}.photo-placeholder small{font-size:10px;opacity:.75;margin-top:8px}.photo-theme-walk{background:radial-gradient(ellipse at 85% 100%,#a8d1c6 0 24%,transparent 25%),linear-gradient(135deg,#dceee8,#f1f6e8)}.photo-theme-culture{color:#7a6590;background:radial-gradient(circle at 15% 15%,#dfd4ed 0 20%,transparent 21%),linear-gradient(140deg,#ece6f4,#f8f2e9)}.photo-theme-culture strong{color:#56426e}.photo-theme-shopping{color:#997045;background:radial-gradient(circle at 85% 20%,#edd2ac 0 19%,transparent 20%),linear-gradient(135deg,#faedd7,#f7e6df)}.photo-theme-shopping strong{color:#795534}

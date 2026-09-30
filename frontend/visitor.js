@@ -31,7 +31,7 @@
     finally{el('visitor-load').disabled=false;}
   });
 
-  function safePhoto(value){try{const u=new URL(value);return u.protocol==='https:'&&u.hostname==='tong.visitkorea.or.kr'?u.href:null;}catch{return null;}}
+  function safePhoto(value){try{const u=new URL(value);if(!['http:','https:'].includes(u.protocol)||u.hostname!=='tong.visitkorea.or.kr'||u.username||u.password||u.port)return null;u.protocol='https:';return u.href;}catch{return null;}}
   function renderPlaces(){
     const root=el('visitor-courses');root.replaceChildren();
     if(!resultData){const blank=node('p','지역을 선택하면 새로운 부산을 보여드릴게요.');blank.className='explore-empty';root.append(blank);return;}
@@ -42,7 +42,7 @@
     for(const p of places.slice(0,visibleCount)){
       const card=node('article','');card.className='place-card';
       const photo=node('div','');photo.className='place-photo';
-      const fallback=()=>{photo.replaceChildren();const empty=node('div','');empty.className='photo-placeholder';empty.append(node('b','◇'),node('span','새로운 부산을 발견하세요'));photo.append(empty);};
+      const fallback=()=>{photo.replaceChildren();const theme=({'12':['◎','관광 · 산책','walk'],'14':['▥','문화 · 전시','culture'],'38':['▦','쇼핑 · 골목','shopping']})[p.content_type]||['◇','부산 둘러보기','walk'];const empty=node('div','');empty.className='photo-placeholder photo-theme-'+theme[2];const icon=node('b',theme[0]);icon.setAttribute('aria-hidden','true');empty.append(icon,node('span',theme[1]),node('strong',p.name),node('small','사진 준비 중 · 유형 안내 카드'));photo.append(empty);};
       const url=safePhoto(p.image_url);
       if(url){const img=document.createElement('img');img.src=url;img.alt=p.name;img.loading='lazy';img.referrerPolicy='no-referrer';img.addEventListener('error',fallback,{once:true});const credit=node('span','사진 · 한국관광공사');credit.className='photo-credit';photo.append(img,credit);}else fallback();
       const body=node('div','');body.className='place-content';const tag=node('span',p.type_name+' · '+data.district);tag.className='place-type';const address=node('p',p.address);address.className='meta';body.append(tag,node('h3',p.name),address);
