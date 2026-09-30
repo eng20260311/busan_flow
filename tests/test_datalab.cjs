@@ -1,0 +1,13 @@
+const assert=require('node:assert/strict');
+const {weekly}=require('../frontend/datalab.js');
+const sample={start_date:'20260101',end_date:'20260114',series:[{district:'중구',group:'2',points:Array.from({length:14},(_,i)=>({date:'202601'+String(i+1).padStart(2,'0'),value:String(i<7?10:20)}))}]};
+assert.deepEqual(weekly(sample,'2').map(r=>r.values[1]),[10,20]);
+assert.equal(weekly(sample,'3')[0].values[1],null);
+sample.series[0].points[0].value=null;
+assert.equal(weekly(sample,'2')[0].values[1],null);
+sample.series[0].points[0].value='0';
+assert.equal(weekly(sample,'2')[0].values[1],60/7);
+const real=require('../data/public/visitor_analysis.json');
+assert.equal(weekly(real,'2').length,8);
+assert.ok(weekly(real,'2').every(r=>r.values.every(v=>Number.isFinite(v))));
+console.log('DataLab weekly calculations: passed');
