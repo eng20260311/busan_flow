@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: busan-flow
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT --no-access-log
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.14.7
+      - key: FLOW_PUBLIC_DEPLOYMENT
+        value: "1"
+      - key: TMAP_APP_KEY
+        sync: false
+      - key: KAKAO_REST_API_KEY
+        sync: false
+      - key: TOUR_API_KEY
+        sync: false
