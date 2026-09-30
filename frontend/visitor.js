@@ -9,7 +9,7 @@
     for(const item of saved){const card=node('article','');card.className='card';card.append(node('h3',item.district),node('p',item.names.join(' · ')));const remove=node('button','삭제');remove.type='button';remove.addEventListener('click',()=>{const next=saved.filter(x=>x.key!==item.key);try{localStorage.setItem('flow-visitor-saved',JSON.stringify(next));saved=next;renderSaved();renderPlaces();}catch{el('visitor-status').textContent='저장 목록을 변경하지 못했습니다.';}});card.append(remove);root.append(card);}
   }
   async function notices(){
-    try{const r=await fetch('/api/north-port');if(!r.ok)throw Error();const data=await r.json();const root=el('visitor-alerts');
+    try{const r=await fetch('/api/north-port');if(!r.ok)throw Error();const data=await r.json();window.FlowDataLab.render(data.analysis);const root=el('visitor-alerts');
       const earlier=node('details','');earlier.append(node('summary','이전 문자 3건 더 보기'));
       for(const record of [...data.records].reverse()){
         const card=node('details','');card.className='card';card.open=false;
@@ -18,7 +18,7 @@
         const source=node('a','공식 출처');source.href=data.source_url;source.target='_blank';source.rel='noopener noreferrer';card.append(source);
         if([269127,269122].includes(record.SN))root.append(card);else earlier.append(card);
       }root.append(earlier);
-    }catch{el('visitor-alerts').append(node('p','문자를 불러오지 못했습니다. 잠시 후 새로고침해 주세요.'));}
+    }catch{el('visitor-datalab').textContent='데이터랩 자료를 불러오지 못했습니다. 관광지 탐색은 계속 이용할 수 있습니다.';el('visitor-alerts').append(node('p','문자를 불러오지 못했습니다. 잠시 후 새로고침해 주세요.'));}
   }
   function reset(){version++;resultData=null;visibleCount=12;el('visitor-courses').replaceChildren();window.FlowRoutes.clear();el('visitor-status').textContent='지역을 선택하고 대체 관광지를 찾아보세요.';}
   el('visitor-district').addEventListener('change',reset);
